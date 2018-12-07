@@ -1,0 +1,94 @@
+/* pages/item/item.wxss */
+
+.Textname{
+    text-align: center;
+    color: 	#303030;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold
+}
+
+.ply{
+    width: 100%;
+    text-align: center
+}
+
+
+.btnimg{
+    width:100rpx;
+    height:100rpx;
+    position:absolute;
+    left:100rpx;
+    top:150rpx;
+}
+.prebtn{
+    width:100rpx;
+    height:100rpx;
+    position:absolute;
+    left:50rpx;
+    top:980rpx;
+}
+
+.nextbtn{
+    width:100rpx;
+    height:100rpx;
+    position:absolute;
+    right:50rpx;
+    top:980rpx;
+}
+
+.audio_progress{
+    width:500rpx;
+    margin-left:125rpx;
+    margin-top:155rpx;
+ 
+}
+
+.audio_post{
+    width: 300rpx;
+    height: 300rpx;
+    margin: 50rpx auto;
+    border-radius: 50%;
+  }
+   
+  /* 旋转的样式 */
+  .music_on{
+    animation: audio-rotate 8s linear infinite;
+  }
+  
+.contentText{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 35rpx
+}
+.currentTime{
+    color:red;
+    font-size: 45rpx;
+  }
+  
+
+ .sview{
+     height: 180rpx;
+ }
+
+.like{
+    width:80rpx;
+    height:80rpx;
+    position:absolute;
+    right:70rpx;
+    top:800rpx;
+}
+
+
+  /* 旋转动画 */
+@keyframes audio-rotate {
+    0% {
+      transform: rotateZ(0deg);
+    }
+   
+    100% {
+      transform: rotateZ(360deg);
+    }
+  }

@@ -1,0 +1,48 @@
+<!--pages/item/item.wxml-->
+
+<view class="Textname" >
+  {{ name }}——{{author}}
+</view>
+<!--歌词-->
+
+  <view  class="weui-flex">
+    <scroll-view  scroll-y="true" scroll-with-animation='true' scroll-top='{{ marginTop}}' style="height:400px" >
+      <view class='contentText'>
+           <block wx:for='{{storyContent}}' wx:key="{{item.id}}">
+               <text class="{{currentIndex222 == index ? 'currentTime' : ''}}">{{item[1]}}</text>
+            </block>
+       </view>
+</scroll-view>
+  </view>    
+        
+           
+
+
+<view class="body">
+        <image style="position: fixed;left: 0;top: 0;right: 0;bottom: 0;height: 100%;width: 100%;z-index: -1000;opacity: .2;"
+        src="{{ poster }}" mode="aspectFill" />
+    <!--当前为停止状态  -->
+    <view style="width:250rpx;height:250rpx;left:250rpx;top:12rpx;position:relative;" wx:if="{{isplay==false}}" bindtap='play'>
+        <image class='audio_post{{isplay?" music_on":""}}' src='{{poster}}' />
+        <image src='../../image/play.png' class="btnimg"></image>
+      </view>
+      <!--当前为播放状态  -->
+      <view style="width:250rpx;height:250rpx;left:250rpx;top:12rpx;position:relative;" wx:if="{{isplay==true}}" bindtap='stop'>
+        <image class='audio_post{{isplay?" music_on":""}}' src='{{poster}}' animation="{{animation}}"/>
+        <image src='../../image/stop.png' class="btnimg" ></image>
+      </view>
+      <view >
+          
+        <slider style="width:500rpx;margin-left:125rpx;margin-top:125rpx;" max='{{maxlength}}' min="0" step="1" value="{{value}}" block-size='10' bindchanging="changing" bindchange="change"></slider>
+    
+      </view>
+      <image src='../../image/left.png' class="prebtn" bindtap="preMusic" data-index="{{ index }}"></image>
+      <image src='../../image/right.png' class="nextbtn" bindtap="nextMusic" data-index="{{ index }}"></image>
+      <image src='../../image/unlike.png' class="like" bindtap="addMyLike" wx:if="{{islove==false}}"></image>
+      <image src='../../image/like.png' class="like" bindtap="removeMyLike" wx:if="{{islove==true}}"></image>
+
+</view>
+
+
+
+
