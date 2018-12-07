@@ -39,7 +39,7 @@
       <image src='../../image/left.png' class="prebtn" bindtap="preMusic" data-index="{{ index }}"></image>
       <image src='../../image/right.png' class="nextbtn" bindtap="nextMusic" data-index="{{ index }}"></image>
       <image src='../../image/unlike.png' class="like" bindtap="addMyLike" wx:if="{{islove==false}}"></image>
-      <image src='../../image/like.png' class="like" bindtap="removeMyLike" wx:if="{{islove==true}}"></image>
+      
 
 </view>
 

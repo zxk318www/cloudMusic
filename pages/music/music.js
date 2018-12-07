@@ -12,7 +12,10 @@ Page({
         tuijian:[],
 
         inputShowed: false,
-        inputVal: ""
+        inputVal: "",
+        startX: 0, //开始坐标
+
+        startY: 0
 
     },
     onLoad: function () {
@@ -28,10 +31,12 @@ Page({
         this.getAllMusic()
     },
     tabClick: function (e) {
+      
         this.setData({
             sliderOffset: e.currentTarget.offsetLeft,
             activeIndex: e.currentTarget.id
         });
+        this.getMylove()
     },
     getNewMusic(){
       console.log(1)
@@ -137,6 +142,7 @@ Page({
     getAllMusic(){
       this.getNewMusic()
       this.getTuijianMusic()
+      this.getMylove()
     },
 
     getMylove(){
@@ -148,6 +154,7 @@ Page({
           that.setData({
             mylove:res.data
           })
+      
         },
         fail: function() {
           // fail
@@ -177,5 +184,45 @@ Page({
       this.setData({
           inputVal: e.detail.value
       });
+  },
+  
+  longPress(e){
+    var that = this
+    let idx = e.currentTarget.dataset.index
+    wx.showModal({
+      title:'提示',
+      content:'你将删除该歌曲！',
+      success:function(res){
+        if(res.confirm){
+          console.log("点击删除")
+          that.delMusic(idx)
+        }
+      }
+    })
+  },
+  delMusic(param){
+    var songs=[]
+    wx.getStorage({
+      key: 'mylove',
+      success: function(res){
+        songs = res.data
+        songs.splice(param,1)
+        wx.setStorage({
+          key: 'mylove',
+          data: songs,
+          success: function(res){
+            // success
+          },
+          fail: function() {
+            // fail
+          },
+          complete: function() {
+            // complete
+          }
+        })
+      }
+     
+    })
   }
-});
+})
+ 
