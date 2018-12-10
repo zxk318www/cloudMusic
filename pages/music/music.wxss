@@ -26,3 +26,14 @@
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     color: #584225;
 }
+
+
+/**index.wxss**/
+.content{
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    font-size: 30rpx;
+    color:	#33ccff
+  }
+  

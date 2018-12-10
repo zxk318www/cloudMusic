@@ -19,16 +19,22 @@
             <view class="weui-search-bar__cancel-btn" hidden="{{!inputShowed}}" bindtap="hideInput">取消</view>
         </view>
         <view class="weui-cells searchbar-result" wx:if="{{searchsongs.length > 0}}" wx:for="{{searchsongs}}" wx:key="{{item.id}}" wx:for-index="idx">
-            <navigator url="../item/item?type=6&index={{idx}}" class="weui-cell" hover-class="weui-cell_active">
-                <view class="weui-cell__bd">
-                    <view>{{item.name}}——{{item.singer}}</view>
+            
+                <view class="weui-cell weui-cell__bd" bindtap="goto" data-lrc="{{item.lrc}}" data-name="{{item.name}}" data-pic="{{item.pic}}" data-singer="{{item.singer}}" data-url="{{item.url}}" >
+                    <view>{{idx+1}}.{{item.name}}——{{item.singer}}</view>
                 </view>
-            </navigator>
+           
             
         </view>
+  
+            <view class="content" wx:if="{{searchsongs.length > 0}}">
+                <view wx:if="{{page>1}}"  style="flex:1;height:100px;" bindtap="preSearch">上一页</view>
+                <view style="flex:1;height:100px;" bindtap="nextSearch">下一页</view>
+            </view>
+  
     </view>
 </view>
-
+  
 
 <view class="page">
     <view class="page__bd">

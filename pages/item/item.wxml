@@ -36,8 +36,8 @@
         <slider style="width:500rpx;margin-left:125rpx;margin-top:125rpx;" max='{{maxlength}}' min="0" step="1" value="{{value}}" block-size='10' bindchanging="changing" bindchange="change"></slider>
     
       </view>
-      <image src='../../image/left.png' class="prebtn" bindtap="preMusic" data-index="{{ index }}"></image>
-      <image src='../../image/right.png' class="nextbtn" bindtap="nextMusic" data-index="{{ index }}"></image>
+      <image src='../../image/left.png' wx:if="{{hasborth==true}}" class="prebtn" bindtap="preMusic" data-index="{{ index }}"></image>
+      <image src='../../image/right.png' wx:if="{{hasborth==true}}" class="nextbtn" bindtap="nextMusic" data-index="{{ index }}"></image>
       <image src='../../image/unlike.png' class="like" bindtap="addMyLike" wx:if="{{islove==false}}"></image>
       
 

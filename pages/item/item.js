@@ -34,7 +34,8 @@ Page({
     type:'',
     islove:false,
     myIndex:'',
-    myMusic:[]
+    myMusic:[],
+    hasborth:true
    
   },
   /**
@@ -42,7 +43,6 @@ Page({
    */
   onLoad: function (options) {
       console.log("==============>item")
-     // console.log(options.islove)
       songs = wx.getStorageSync('mylove')
       if(options.type==='3'){
         this.setData({
@@ -52,18 +52,19 @@ Page({
        
         this.getMyLoveMusic()
       }else if(options.type==='6'){
-        console.log(options.index)
-        let songs = []
-        songs = wx.getStorageSync('search')
-        let song = {}
-        song = songs[options.index]
+        console.log(options.type)
+        let song ={}
+        song = wx.getStorageSync('searchSimple')
+       
         this.setData({
           lrcurl:song.lrc,
           name:song.name,
           poster:song.pic,
           author:song.singer,
-          src:song.url
+          src:song.url,
+          hasborth:false
         })
+        this.getLrc(this.data.lrcurl)
       }
       else{
         console.log("getMusic")
@@ -107,7 +108,7 @@ Page({
       myMusic: songs
     })
  
-    console.log("mysongs:"+this.data.myMusic.length)
+    console.log(this.data.src)
   
    
   },
@@ -115,6 +116,7 @@ Page({
   //播放
   play: function () {
             const that = this;
+            console.log("播放中")
             myaudio.src = this.data.src
             that.getmusiclength();
             myaudio.play();

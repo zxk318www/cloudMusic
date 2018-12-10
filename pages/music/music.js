@@ -16,7 +16,8 @@ Page({
         inputVal: [],
         startX: 0, //开始坐标
 
-        startY: 0
+        startY: 0,
+        page:1
 
     },
     onLoad: function () {
@@ -51,9 +52,7 @@ Page({
           console.log(res)
           if(res)
             that.setData({
-              songlist: res.data.songlist,
-              topinfo: res.data.topinfo
-             
+              songlist: res.data.songlist
             })
             wx.removeStorage({
               key: 'songs',
@@ -150,20 +149,22 @@ Page({
       this.setData({
           inputVal: "",
           inputShowed: false,
-          searchsongs:[]
+          searchsongs:[],
+          page:1
       });
   },
   clearInput: function () {
     console.log("clearInput")
       this.setData({
           inputVal: "",
-          searchsongs:[]
+          searchsongs:[],
+          page:1
       });
   },
   inputTyping: function (e) {
     console.log("input")
     
-     this.findMusic(e.detail.value)
+     this.findMusic(e.detail.value,this.data.page)
       this.setData({
           inputVal: e.detail.value
       });
@@ -194,12 +195,12 @@ Page({
     })
   },
 
-  findMusic(param){
+  findMusic(param,page){
     let songs =[]
     console.log(param)
     var that = this
     wx.request({
-      url:  `https://api.bzqll.com/music/tencent/search?key=579621905&s=${param}&limit=10&offset=0&type=song`,
+      url:  `https://api.bzqll.com/music/tencent/search?key=579621905&s=${param}&limit=20&offset=${page}&type=song`,
       data: {},
       method: 'GET', // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
       // header: {}, // 设置请求的 header
@@ -216,6 +217,49 @@ Page({
       },
       complete: function() {
        wx.setStorageSync('search', songs)
+      }
+    })
+  },
+  nextSearch(){
+    var inputvalue = this.data.inputVal
+    let nowpage = parseInt(this.data.page) +1
+    this.findMusic(inputvalue,nowpage);
+    this.setData({
+      page:nowpage
+    })
+  },
+
+  preSearch(){
+    var inputvalue = this.data.inputVal
+    if(this.data.page>=1){
+      let nowpage = parseInt(this.data.page) -1
+      this.findMusic(inputvalue,nowpage);
+      this.setData({
+        page:nowpage
+      })
+    }
+   
+  },
+  goto(e){
+    let searchSimple={}
+    searchSimple ={
+      lrc: e.currentTarget.dataset.lrc,
+      name: e.currentTarget.dataset.name,
+      pic: e.currentTarget.dataset.pic,
+      singer: e.currentTarget.dataset.singer,
+      url: e.currentTarget.dataset.url
+    }
+    wx.setStorageSync('searchSimple', searchSimple)
+    wx.navigateTo({
+      url: '../item/item?type=6',
+      success: function(res){
+        // success
+      },
+      fail: function() {
+        // fail
+      },
+      complete: function() {
+        // complete
       }
     })
   }
