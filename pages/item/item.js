@@ -110,7 +110,7 @@ Page({
  
     console.log(this.data.src)
   
-   
+   this.getmusiclength()
   },
 
   //播放
@@ -118,7 +118,6 @@ Page({
             const that = this;
             console.log("播放中")
             myaudio.src = this.data.src
-            that.getmusiclength();
             myaudio.play();
             myaudio.onEnded((res) =>{
               clearInterval(myintervi1)
