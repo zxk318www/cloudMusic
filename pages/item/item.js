@@ -42,7 +42,7 @@ Page({
    */
   onLoad: function (options) {
       console.log("==============>item")
-      console.log(options.islove)
+     // console.log(options.islove)
       songs = wx.getStorageSync('mylove')
       if(options.type==='3'){
         this.setData({
@@ -51,7 +51,21 @@ Page({
         })
        
         this.getMyLoveMusic()
-      }else{
+      }else if(options.type==='6'){
+        console.log(options.index)
+        let songs = []
+        songs = wx.getStorageSync('search')
+        let song = {}
+        song = songs[options.index]
+        this.setData({
+          lrcurl:song.lrc,
+          name:song.name,
+          poster:song.pic,
+          author:song.singer,
+          src:song.url
+        })
+      }
+      else{
         console.log("getMusic")
         this.getMusic(options.songmid)
         this.setData({
@@ -365,84 +379,64 @@ Page({
   },
   //获取下一首歌
   nextMusic(e){
-        var that = this
+       
         var index = parseInt(e.currentTarget.dataset.index) +1;
         console.log(e.currentTarget.dataset.index)
         var type = this.data.type
         if(type === '1'){
-          wx.getStorage({
-            key: 'songs',
-            success: function(res){
-              console.log(res)
-              let songs ={}
-              songs = res.data[index];
-              var songid = songs.data.songmid;
-              that.getMusic(songid)
-              myaudio.pause();
-              clearInterval(myintervi1);
-            
-              that.setData({
+          let songs = []
+          songs = wx.getStorageSync('songs')
+          let songid = songs[index].data.songmid
+          this.getMusic(songid)
+          this.setData({
                 index:index,
                 value: 0,
                 marginTop:0,
                 maxlength:0,
                 currentIndex222:0,
                 isplay:false
-              
-              })
-            }
+                
           })
         }
         if(type === '2'){
-          wx.getStorage({
-            key: 'tuijian',
-            success: function(res){
-              console.log(index)
-              let songs ={}
-              songs = res.data[index];
-              var songid = songs.data.songmid;
-              that.getMusic(songid)
-              myaudio.pause();
-              clearInterval(myintervi1);
-            
-              that.setData({
+          let songs = []
+          songs = wx.getStorageSync('songs')
+          let songid = songs[index].data.songmid
+          this.getMusic(songid)
+          this.setData({
                 index:index,
                 value: 0,
                 marginTop:0,
                 maxlength:0,
                 currentIndex222:0,
                 isplay:false
-              
-              })
-            }
+                
           })
         }
    
   },
   //获取上一首歌
   preMusic(e){
-        var that = this
         var index = parseInt(e.currentTarget.dataset.index) -1;
         console.log(index)
-        wx.getStorage({
-          key: 'songs',
-          success: function(res){
-            //console.log(res);
-            let songs ={}
-            songs = res.data[index];
-            var songid = songs.data.songmid;
-            that.getMusic(songid)
-            that.setData({
-              index:index,
-              value: 0,
-              marginTop:0,
-              maxlength:0,
-              currentIndex222:0,
-              isplay:false
-              
-            })
-          }
-        })
+        if(index>=0){
+          let songs = []
+          let songid ={}
+          songs = wx.getStorageSync('songs')
+          songid = songs[index].data.songmid
+         
+          this.getMusic(songid)
+          this.setData({
+                index:index,
+                value: 0,
+                marginTop:0,
+                maxlength:0,
+                currentIndex222:0,
+                isplay:false
+                
+          })
+        }
+        
   },
   //添加我喜欢音乐
   addMyLike(){

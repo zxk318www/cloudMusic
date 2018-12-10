@@ -12,7 +12,8 @@ Page({
         tuijian:[],
 
         inputShowed: false,
-        inputVal: "",
+        searchsongs:[],
+        inputVal: [],
         startX: 0, //开始坐标
 
         startY: 0
@@ -64,20 +65,7 @@ Page({
                 // fail
               },
               complete: function() {
-                wx.setStorage({
-                  key: 'songs',
-                  data: res.data.songlist,
-                  success: function(res){
-                    // success
-                    console.log("添加缓存成功")
-                  },
-                  fail: function() {
-                    // fail
-                  },
-                  complete: function() {
-                    // complete
-                  }
-                })
+               wx.setStorageSync('songs', res.data.songlist)
               }
             })
            
@@ -113,20 +101,7 @@ Page({
               // fail
             },
             complete: function() {
-              wx.setStorage({
-                key: 'tuijian',
-                data: res.data.songlist,
-                success: function(res){
-                  // success
-                  console.log("添加缓存成功")
-                },
-                fail: function() {
-                  // fail
-                },
-                complete: function() {
-                  // complete
-                }
-              })
+              wx.setStorageSync('tuijian', res.data.songlist)
             }
           })
           
@@ -164,23 +139,31 @@ Page({
         }
       })
     },
-    showInput: function () {
+  showInput: function () {
+    console.log("showInput")
       this.setData({
           inputShowed: true
       });
   },
   hideInput: function () {
+     console.log("hideInput")
       this.setData({
           inputVal: "",
-          inputShowed: false
+          inputShowed: false,
+          searchsongs:[]
       });
   },
   clearInput: function () {
+    console.log("clearInput")
       this.setData({
-          inputVal: ""
+          inputVal: "",
+          searchsongs:[]
       });
   },
   inputTyping: function (e) {
+    console.log("input")
+    
+     this.findMusic(e.detail.value)
       this.setData({
           inputVal: e.detail.value
       });
@@ -189,6 +172,7 @@ Page({
   longPress(e){
     var that = this
     let idx = e.currentTarget.dataset.index
+    console.log(idx)
     wx.showModal({
       title:'提示',
       content:'你将删除该歌曲！',
@@ -202,26 +186,37 @@ Page({
   },
   delMusic(param){
     var songs=[]
-    wx.getStorage({
-      key: 'mylove',
+    songs = wx.getStorageSync('mylove')
+    songs.splice(param,1)
+    wx.setStorageSync('mylove', songs)
+    this.setData({
+      mylove:songs
+    })
+  },
+
+  findMusic(param){
+    let songs =[]
+    console.log(param)
+    var that = this
+    wx.request({
+      url:  `https://api.bzqll.com/music/tencent/search?key=579621905&s=${param}&limit=10&offset=0&type=song`,
+      data: {},
+      method: 'GET', // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
+      // header: {}, // 设置请求的 header
       success: function(res){
-        songs = res.data
-        songs.splice(param,1)
-        wx.setStorage({
-          key: 'mylove',
-          data: songs,
-          success: function(res){
-            // success
-          },
-          fail: function() {
-            // fail
-          },
-          complete: function() {
-            // complete
-          }
+        // success
+        console.log(res.data)
+        that.setData({
+          searchsongs:res.data.data
         })
+        songs = res.data.data
+      },
+      fail: function() {
+        // fail
+      },
+      complete: function() {
+       wx.setStorageSync('search', songs)
       }
-     
     })
   }
 })
